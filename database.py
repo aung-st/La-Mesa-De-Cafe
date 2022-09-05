@@ -1,32 +1,44 @@
 import sqlite3
 
-def fetch_query(command):
+#Queries
+def CREATE_BEANS_TABLE():
+    query = "CREATE TABLE IF NOT EXISTS beans (id INTEGER PRIMARY KEY, name TEXT, method TEXT, rating INTEGER);"
+    return query
 
-    CREATE_BEANS_TABLE = "CREATE TABLE IF NOT EXISTS beans (id INTEGER PRIMARY KEY, name TEXT, method TEXT, rating INTEGER);"
-    
-    INSERT_BEAN = "INSERT INTO beans (name, method, rating) VALUES (?,?,?);"
-    
-    GET_ALL_BEANS = "SELECT * FROM beans;"
-    
-    GET_BEANS_BY_NAME = "SELECT * FROM beans WHERE name = ?"
-    
-    GET_BEST_PREP_FOR_BEAN = """
+def INSERT_BEAN():
+    query = "INSERT INTO beans (name, method, rating) VALUES (?,?,?);"
+    return query
+
+def GET_ALL_BEANS():
+    query = "SELECT * FROM beans;"
+    return query
+
+def GET_BEANS_BY_NAME():
+    query = "SELECT * FROM beans WHERE name = ?"
+    return query
+
+def GET_BEST_PREP_FOR_BEAN():
+    query = """
     SELECT * FROM beans
     WHERE name = ?
     ORDER BY rating DESC
     LIMIT 1;
     """
+    return query
+
+
+def fetch_query(command):
 
     if command == "CREATE_BEANS_TABLE":
-        return CREATE_BEANS_TABLE
+        return CREATE_BEANS_TABLE()
     elif command == "INSERT_BEAN":
-        return INSERT_BEAN
+        return INSERT_BEAN()
     elif command == "GET_ALL_BEANS":
-        return GET_ALL_BEANS
+        return GET_ALL_BEANS()
     elif command == "GET_BEANS_BY_NAME":
-        return GET_BEANS_BY_NAME
+        return GET_BEANS_BY_NAME()
     elif command == "GET_BEST_PREP_FOR_BEAN":
-        return GET_BEST_PREP_FOR_BEAN
+        return GET_BEST_PREP_FOR_BEAN()
 
 def connect():
     connection = sqlite3.connect("data.db")

@@ -58,5 +58,4 @@ def menu():
             print("Invalid input! Please try again!")
         
 
-if __name__ == "main":
-    menu()
+menu()
