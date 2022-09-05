@@ -1,0 +1,53 @@
+import sqlite3
+
+def fetch_query(command):
+
+    CREATE_BEANS_TABLE = "CREATE TABLE IF NOT EXISTS beans (id INTEGER PRIMARY KEY, name TEXT, method TEXT, rating INTEGER);"
+    
+    INSERT_BEAN = "INSERT INTO beans (name, method, rating) VALUES (?,?,?);"
+    
+    GET_ALL_BEANS = "SELECT * FROM beans;"
+    
+    GET_BEANS_BY_NAME = "SELECT * FROM beans WHERE name = ?"
+    
+    GET_BEST_PREP_FOR_BEAN = """
+    SELECT * FROM beans
+    WHERE name = ?
+    ORDER BY rating DESC
+    LIMIT 1;
+    """
+
+    if command == "CREATE_BEANS_TABLE":
+        return CREATE_BEANS_TABLE
+    elif command == "INSERT_BEAN":
+        return INSERT_BEAN
+    elif command == "GET_ALL_BEANS":
+        return GET_ALL_BEANS
+    elif command == "GET_BEANS_BY_NAME":
+        return GET_BEANS_BY_NAME
+    elif command == "GET_BEST_PREP_FOR_BEAN":
+        return GET_BEST_PREP_FOR_BEAN
+
+def connect():
+    connection = sqlite3.connect("data.db")
+    return connection
+
+def create_tables(connection):
+    with connection:
+        connection.execute(fetch_query("CREATE_BEANS_TABLE"))
+
+def add_bean(connection, name, method, rating):
+    with connection:
+        connection.execute(fetch_query("INSERT_BEAN"), (name, method, rating))
+
+def get_all_beans(connection):
+    with connection:
+        return connection.execute(fetch_query("GET_ALL_BEANS")).fetchall()
+
+def get_beans_by_name(connection, name):
+    with connection:
+        return connection.execute(fetch_query("GET_BEANS_BY_NAME"), (name,)).fetchall()
+
+def get_best_prep_for_bean(connection, name):
+    with connection:
+        return connection.execute(fetch_query("GET_BEST_PREP_FOR_BEAN"),(name,)).fetchone()
