@@ -3,7 +3,7 @@ import database
 
 def menu():
 
-    MENU_PROMPT = """-- Coffee Bean App --
+    MENU_PROMPT = """\n-- La Mesa De Café --
 
     Please choose one of these options:
 
@@ -12,16 +12,17 @@ def menu():
     3) Find a bean by name
     4) See best preperation method for a bean
     5) Exit
-    """
+    Option: """
+
     connection = database.connect()
     database.create_tables(connection)
 
     while(user_input := int(input(MENU_PROMPT))) != 5:
         if user_input == 1:
 
-            name = input("Enter bean name")
-            method = input("Enter preperation style:")
-            rating = int(input("Enter your rating (0-100)"))
+            name = input("Enter bean name: ")
+            method = input("Enter preperation style: ")
+            rating = int(input("Enter your rating (0-100): "))
 
             database.add_bean(connection, name, method, rating)
 
@@ -29,19 +30,19 @@ def menu():
 
             beans = database.get_all_beans(connection)
 
-            print("Your Selection:")
-            print("-------Name----------Method------Rating")
+            print("\nYour Selection:\n")
+            print("-------Name---------------Method------Rating")
 
             for bean in beans:
-                print(f"({bean[1]}) ({bean[2]}) - {bean[3]}/100")
+                print(f"({bean[1].ljust(4)})      ({bean[2].ljust(15)}) - {bean[3]}/100")
 
         elif user_input == 3:
 
             name = input("Enter bean:")
             beans = database.get_beans_by_name(connection, name)
-            print("-------Name----------Method------Rating")
+            print("\n-------Name---------------Method------Rating")
             for bean in beans:
-                print(f"({bean[1]}) ({bean[2]}) - {bean[3]}/100")
+                print(f"({bean[1]})      ({bean[2]}) - {bean[3]}/100")
 
 
         elif user_input == 4:
