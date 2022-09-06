@@ -1,5 +1,5 @@
 import database
-
+import pandas
 
 def menu():
 
@@ -30,19 +30,17 @@ def menu():
 
             beans = database.get_all_beans(connection)
 
-            print("\nYour Selection:\n")
-            print("-------Name---------------Method------Rating")
-
+            
+            print()
             for bean in beans:
-                print(f"({bean[1].ljust(4)})      ({bean[2].ljust(15)}) - {bean[3]}/100")
+                print(f"{bean[1]} - {bean[2]} - {bean[3]}/100")
 
         elif user_input == 3:
 
-            name = input("Enter bean:")
+            name = input("Enter bean: ")
             beans = database.get_beans_by_name(connection, name)
-            print("\n-------Name---------------Method------Rating")
             for bean in beans:
-                print(f"({bean[1]})      ({bean[2]}) - {bean[3]}/100")
+                print(f"{bean[1]} - {bean[2]} - {bean[3]}/100")
 
 
         elif user_input == 4:
